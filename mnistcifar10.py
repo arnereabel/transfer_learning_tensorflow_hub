@@ -4,22 +4,24 @@ import tensorflow as tf
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.ma.bench import yl
+
 
 print(tf.__version__)
 
 
 # Import, load and unpack  the Fashion MNIST data directly from TensorFlow:
-fashion_mnist= tf.keras.datasets.fashion_mnist
-(train_images, train_labels), (test_images,test_labels) = fashion_mnist.load_data()
+cifar10 = tf.keras.datasets.cifar10
+(train_images, train_labels), (test_images,test_labels) = cifar10.load_data()
 
-#The images are 28x28 NumPy arrays, with pixel values ranging from 0 to 255. The labels are an array of integers,
+
+
+#The images are 32x32 NumPy arrays, with pixel values ranging from 0 to 255. The labels are an array of integers,
 # ranging from 0 to 9. These correspond to the class of clothing the image represents:
 
 
 
-class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
-               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+               'dog', 'frog', 'horse','ship', 'truck']
 
 
 # explore the dataset
@@ -38,7 +40,7 @@ print(f'test_labels as many labels  as images in the dataset {len(test_labels)} 
 print(plt.figure())
 plt.xlabel('pxl')
 plt.ylabel('pxl')
-plt.imshow(train_images[0])
+plt.imshow(train_images[0],cmap=plt.cm.binary)
 plt.colorbar(label=('pxl grayscale values'))
 plt.grid(False)
 plt.show()
@@ -184,14 +186,3 @@ plt.show()
 
 
 np.argmax(predictions_single[0])
-
-fig, ax = plt.subplots(1, 2, figsize=(20, 3))
-ax = ax.ravel()
-
-for i, metric in enumerate(["acc", "loss"]):
-    ax[i].plot(model.history.history[metric])
-    ax[i].plot(model.history.history["val_" + metric])
-    ax[i].set_title("Model {}".format(metric))
-    ax[i].set_xlabel("epochs")
-    ax[i].set_ylabel(metric)
-    ax[i].legend(["train", "val"])
